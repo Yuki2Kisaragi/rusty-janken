@@ -1,23 +1,24 @@
 use rand::Rng;
 use std::io::stdin;
 
-enum Hands {
-    Lock = 0,
-    Sissor,
-    Paper,
-}
 fn disp_hand(num: &i32) -> &'static str {
     match num {
-        0 => "Lock",
+        0 => "Lock", // 本来は不要だが,明示的に定義する
         1 => "Sissor",
         2 => "Paper",
         _ => "None",
     }
 }
 
-struct Janken {
-    hands: Hands,
-    choices: i32,
+fn comp_hands(user_hands: i32, cpu_hands: i32) -> GameResult {
+    let comp: i32 = (user_hands - cpu_hands + 3) % 3;
+
+    match comp {
+        0 => GameResult::Draw,
+        1 => GameResult::Lose,
+        2 => GameResult::Win,
+        _ => GameResult::Null,
+    }
 }
 
 #[derive(Debug)]
@@ -40,8 +41,6 @@ fn main() {
             .read_line(&mut input_str)
             .expect("Failed to read line");
 
-        //println!("input_str : {} ", input_str);
-
         let input_number: i32 = match input_str.trim().parse() {
             Ok(input_number) => input_number,
             Err(_) => {
@@ -57,30 +56,11 @@ fn main() {
             }
         };
 
-        //println!("user_choice : {} {}", user_choice, disp_hand(&user_choice));
-        //println!("USER : {} ", disp_hand(&user_choice));
-        //println!("CPU  : {} ", disp_hand(&cpu_choice));
-        println!("USER  vs CPU");
-
-        println!(
-            "{:<2} vs {} ",
-            disp_hand(&user_choice),
-            disp_hand(&cpu_choice)
-        );
+        println!("USER: {}", disp_hand(&user_choice));
+        println!("CPU : {}", disp_hand(&cpu_choice));
 
         let results = comp_hands(user_choice, cpu_choice);
         println!("Game Result : {:?}", results);
         break;
-    }
-}
-
-fn comp_hands(user_hands: i32, cpu_hands: i32) -> GameResult {
-    let comp: i32 = (user_hands - cpu_hands + 3) % 3;
-
-    match comp {
-        0 => GameResult::Draw,
-        1 => GameResult::Lose,
-        2 => GameResult::Win,
-        _ => GameResult::Null,
     }
 }
