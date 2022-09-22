@@ -1,9 +1,17 @@
 use rand::Rng;
 use std::io::stdin;
 
+#[derive(Debug)]
+enum GameResult {
+    Draw = 0, // 本来は不要だが,明示的に定義する
+    Win,
+    Lose,
+    Null,
+}
+
 fn disp_hand(num: &i32) -> &'static str {
     match num {
-        0 => "Lock", // 本来は不要だが,明示的に定義する
+        0 => "Lock",
         1 => "Sissor",
         2 => "Paper",
         _ => "None",
@@ -11,6 +19,16 @@ fn disp_hand(num: &i32) -> &'static str {
 }
 
 fn comp_hands(user_hands: i32, cpu_hands: i32) -> GameResult {
+    // USERとCPUの出した手(0~2)を使い、勝ち負けを判断する
+    // USER - CPU = 0 -> Draw
+    // USERが勝つパターン
+    //  Lock   vs Sissor  : 0 - 1 = -1
+    //  Sissor vs Paper   : 1 - 2 = -1
+    //  Paper  vs Lock    : 2 - 0 =  2
+    // USERが負けるパターン
+    //  Lock   vs Paper   : 0 - 2 = -2
+    //  Sissor vs Lock    : 1 - 0 =  1
+    //  Paper  vs Sissor  : 2 - 1 =  1
     let comp: i32 = (user_hands - cpu_hands + 3) % 3;
 
     match comp {
@@ -21,18 +39,12 @@ fn comp_hands(user_hands: i32, cpu_hands: i32) -> GameResult {
     }
 }
 
-#[derive(Debug)]
-enum GameResult {
-    Draw = 0, // 本来は不要だが,明示的に定義する
-    Win,
-    Lose,
-    Null,
-}
-
 fn main() {
-    // generate number :0~2
+    // 0~2までの乱数を作る
     let cpu_choice: i32 = rand::thread_rng().gen_range(0..3);
-    //println!("CPU choices: {}", disp_hand(&cpu_choice));
+
+    // CPUの手を見る
+    // println!("CPU choices: {}", disp_hand(&cpu_choice));
 
     loop {
         println!("Please input your choice. [0:lock, 1:sissor, 2:paper]");
