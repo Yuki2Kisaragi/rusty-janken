@@ -10,7 +10,7 @@ enum GameResult {
     Null,
 }
 
-fn disp_hand(num: &i32) -> &'static str {
+fn disp_hand(num: &i32) -> &str {
     match num {
         0 => "Lock",
         1 => "Sissor",
