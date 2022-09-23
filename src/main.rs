@@ -1,6 +1,7 @@
 use rand::Rng;
 use std::io::stdin;
 
+// #[derive(Debug)]でEnum型を文字列にする
 #[derive(Debug)]
 enum GameResult {
     Draw = 0, // 本来は不要だが,明示的に定義する
@@ -53,13 +54,17 @@ fn main() {
             .read_line(&mut input_str)
             .expect("Failed to read line");
 
+        // 入力文字から数字を解析する
+        // 失敗したらループ最初へ戻る
         let input_number: i32 = match input_str.trim().parse() {
-            Ok(input_number) => input_number,
+            Ok(parsed_number) => parsed_number,
             Err(_) => {
                 println!("This is not number");
                 continue;
             }
         };
+
+        // 入力された数字が0~2の数字かどうか判別する
         let user_choice = match input_number {
             0 | 1 | 2 => input_number,
             _ => {
