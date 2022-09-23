@@ -57,26 +57,25 @@ fn main() {
         // 入力文字から数字を解析する
         // 失敗したらループ最初へ戻る
         let input_number: i32 = match input_str.trim().parse() {
-            Ok(parsed_number) => parsed_number,
+            Ok(parsed_number) => {
+                match parsed_number {
+                    0 | 1 | 2 => parsed_number,
+                    _ => {
+                        println!("Please inseret number.(0~2)");
+                        continue;
+                    }
+                }
+            },
             Err(_) => {
                 println!("This is not number");
                 continue;
             }
         };
 
-        // 入力された数字が0~2の数字かどうか判別する
-        let user_choice = match input_number {
-            0 | 1 | 2 => input_number,
-            _ => {
-                println!("Please inseret number.(0~2)");
-                continue;
-            }
-        };
-
-        println!("USER: {}", disp_hand(&user_choice));
+        println!("USER: {}", disp_hand(&input_number));
         println!("CPU : {}", disp_hand(&cpu_choice));
 
-        let results = comp_hands(user_choice, cpu_choice);
+        let results = comp_hands(input_number, cpu_choice);
         println!("Game Result : {:?}", results);
         break;
     }
