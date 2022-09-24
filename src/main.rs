@@ -53,24 +53,19 @@ fn main() {
         stdin()
             .read_line(&mut input_str)
             .expect("Failed to read line");
-
+        
         // 入力文字から数字を解析する
         // 失敗したらループ最初へ戻る
-        let input_number: i32 = match input_str.trim().parse() {
-            Ok(parsed_number) => {
-                match parsed_number {
-                    0 | 1 | 2 => parsed_number,
-                    _ => {
-                        println!("Please inseret number.(0~2)");
-                        continue;
-                    }
-                }
-            },
-            Err(_) => {
-                println!("This is not number");
-                continue;
-            }
-        };
+        let mut input_number:i32 = 0;
+        if let v @(Ok(0) | Ok(1) | Ok(2)) = input_str.trim().parse::<i32>() 
+        {
+            input_number = v.unwrap();
+        }
+        else
+        {
+            println!("This is not number or not (0~2)");
+            continue;
+        }
 
         println!("USER: {}", disp_hand(&input_number));
         println!("CPU : {}", disp_hand(&cpu_choice));
