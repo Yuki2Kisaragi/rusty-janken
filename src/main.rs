@@ -41,13 +41,12 @@ fn comp_hands(user_hands: i32, cpu_hands: i32) -> GameResult {
 }
 
 fn main() {
-    // 0~2までの乱数を作る
-    let cpu_choice: i32 = rand::thread_rng().gen_range(0..3);
-
-    // CPUの手を見る
-    // println!("CPU choices: {}", disp_hand(&cpu_choice));
-
     loop {
+        // 0~2までの乱数を作る
+        let cpu_choice: i32 = rand::thread_rng().gen_range(0..3);
+
+        // CPUの手を見る
+        // println!("CPU choices: {}", disp_hand(&cpu_choice));
         println!("Please input your choice. [0:lock, 1:sissor, 2:paper]");
         let mut input_str = String::new();
         stdin()
@@ -76,8 +75,24 @@ fn main() {
         println!("USER: {}", disp_hand(&user_choice));
         println!("CPU : {}", disp_hand(&cpu_choice));
 
-        let results = comp_hands(user_choice, cpu_choice);
-        println!("Game Result : {:?}", results);
-        break;
+        //let results = comp_hands(user_choice, cpu_choice);
+        match comp_hands(user_choice, cpu_choice) {
+            GameResult::Draw => {
+                println!("Draw! Choice next your hand!");
+                continue;
+            }
+            GameResult::Lose => {
+                println!("Game Result : {:?}", GameResult::Lose);
+                break;
+            }
+            GameResult::Win => {
+                println!("Game Result : {:?}", GameResult::Win);
+                break;
+            }
+            GameResult::Null => {
+                println!("Error!");
+                break;
+            }
+        }
     }
 }
