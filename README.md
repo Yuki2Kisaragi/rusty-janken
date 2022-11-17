@@ -10,7 +10,12 @@ Please input your choice. [0:lock, 1:sissor, 2:paper]
 0
 USER: Lock
 CPU : Lock
-Game Result : Draw
+Draw! Choice next your hand!
+Please input your choice. [0:lock, 1:sissor, 2:paper]
+1
+USER: Sissor
+CPU : Paper
+Game Result : Win
 
 $ cargo run
 Please input your choice. [0:lock, 1:sissor, 2:paper]
@@ -85,7 +90,7 @@ stdin()
   //  Paper  vs Sissor  : 2 - 1 =  1
   let comp: i32 = (<ユーザの手> - <コンピュータの手> + 3) % 3;
 ```
-### ヒント4: 標準入力から与えられた文字列を整数に変換する
+## ヒント4: 標準入力から与えられた文字列を整数に変換する
 
 * input_strがString型の文字列とする
 * trim() : スペースを取り除く
